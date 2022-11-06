@@ -1,8 +1,15 @@
-import React from "react";
+import React, {useEffect} from "react";
 import HeaderComponents from "../../layouts/HeaderComponents";
 import FooterComponents from "../../layouts/FooterComponents";
+import {useDispatch, useSelector} from "react-redux";
+import {getAbout} from "../../../store/reducers/aboutSlice";
 
 function AboutUsComponents() {
+    let aboutResponse = useSelector(state => state);
+    let dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(getAbout());
+    }, []);
     return (
         <React.Fragment>
             <HeaderComponents/>
@@ -14,7 +21,20 @@ function AboutUsComponents() {
                 </div>
                 <div className="row">
                     <div className="col-md-12">
-
+                        <div className="row">
+                            {aboutResponse.about.data.map((item, index) => (
+                                <div className="card" key={item._id} style={{width: '18rem'}}>
+                                    <img className="card-img-top" src={item.image} alt="Card image cap"/>
+                                    <div className="card-body">
+                                        <h5 className="card-title">{item.title}</h5>
+                                        <p className="card-text">
+                                            {item.description}
+                                        </p>
+                                        <a href="#" className="btn btn-primary">Go somewhere</a>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
                     </div>
 
                 </div>

@@ -82,7 +82,7 @@ function HeaderComponents() {
                                         <span className="item-arrow"/>
 
                                         <ul className="login-list">
-                                            <li className="login-list-item"><Link to='update-profile'>My
+                                            <li className="login-list-item"><Link to='/update-profile'>My
                                                 account</Link></li>
 
 

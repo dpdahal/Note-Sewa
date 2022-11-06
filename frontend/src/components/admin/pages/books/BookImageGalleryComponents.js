@@ -34,6 +34,7 @@ function BookImageGalleryComponents() {
                     timer: 3000,
                 })
                 setImages([]);
+                dispatch(getBookImages(params.id));
             } else {
                 Swal.fire({
                     icon: 'error',

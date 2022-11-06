@@ -4,17 +4,33 @@ import AdminAsideComponents from "../../layouts/AdminAsideComponents";
 import AdminFooterComponents from "../../layouts/AdminFooterComponents";
 import {useDispatch, useSelector} from "react-redux";
 import {getBookOrderListByLoginUser} from "../../../../store/reducers/bookOrderSlice";
+import api from "../../../../config/api";
 
 function OrderListComponents() {
     let dispatch = useDispatch();
     let userId = localStorage.getItem("userId");
     let orderData = useSelector((state) => state.bookOrder.data);
 
-    console.log(userId);
+
+    const orderUpdateStatus = (id, status) => {
+        let sendData = {
+            orderId: id,
+            status: status
+        }
+        api.post("/books/update-order-status", sendData).then((res) => {
+            dispatch(getBookOrderListByLoginUser(userId));
+        }).catch((err) => {
+            console.log(err);
+        });
+
+    }
+
 
     useEffect(() => {
         dispatch(getBookOrderListByLoginUser(userId));
+
     }, []);
+
     return (
         <div>
             <AdminHeaderComponents/>
@@ -34,6 +50,7 @@ function OrderListComponents() {
                                             <th>S.n</th>
                                             <th>Book Name</th>
                                             <th>Order By</th>
+                                            <th>Quantity</th>
                                             <th>Order Data</th>
                                             <th>Status</th>
                                             <th>Action</th>
@@ -46,11 +63,31 @@ function OrderListComponents() {
                                                     <td>{index + 1}</td>
                                                     <td>{order.book}</td>
                                                     <td>{order.user}</td>
+                                                    <td>{order.quantity}</td>
                                                     <td>{order.createdAt}</td>
                                                     <td>{order.status}</td>
                                                     <td>
-                                                        <button className="btn btn-success">Edit</button>
-                                                        <button className="btn btn-danger">Delete</button>
+                                                        {order.userId === localStorage.getItem('userId') ? (
+                                                            <React.Fragment>
+                                                                <button
+                                                                    type="cancel"
+                                                                    onClick={() => orderUpdateStatus(order._id, 'cancel')}
+                                                                    className="btn btn-danger">Cancel
+                                                                </button>
+                                                            </React.Fragment>
+                                                        ) : (
+                                                            <React.Fragment>
+                                                                <button
+                                                                    onClick={() => orderUpdateStatus(order._id, 'accepted')}
+                                                                    className="btn btn-primary">Accept
+                                                                </button>
+                                                                <button
+                                                                    onClick={() => orderUpdateStatus(order._id, 'rejected')}
+                                                                    className="btn btn-danger">Reject
+                                                                </button>
+                                                            </React.Fragment>
+                                                        )}
+
                                                     </td>
                                                 </tr>
                                             );

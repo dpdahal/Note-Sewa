@@ -21,9 +21,9 @@ const storage = multer.diskStorage({
 const upload = multer({storage: storage})
 
 bannerRoute.get("/", bInstance.index);
-bannerRoute.post("/", upload.array('images',1), bInstance.store);
+bannerRoute.post("/", upload.array('images', 1), bInstance.store);
 bannerRoute.get("/:id", bInstance.show);
-bannerRoute.put("/", upload.array('images',1), bInstance.update);
+bannerRoute.put("/", upload.array('images', 1), bInstance.update);
 bannerRoute.delete("/:id", bInstance.destroy);
 
 export default bannerRoute;

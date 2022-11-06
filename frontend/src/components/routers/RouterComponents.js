@@ -33,6 +33,9 @@ import BlogListComponents from "../pages/blogs/BlogListComponents";
 import AboutUsComponents from "../pages/about/AboutUsComponents";
 import FaqComponents from "../pages/faq/FaqComponents";
 import BlogDetailsComponents from "../pages/blogs/BlogDetailsComponents";
+import AddAboutComponents from "../admin/pages/about/AddAboutComponents";
+import ShowAboutComponents from "../admin/pages/about/ShowAboutComponents";
+import UpdateAboutComponents from "../admin/pages/about/UpdateAboutComponents";
 
 function RouterComponents() {
     return (
@@ -51,12 +54,15 @@ function RouterComponents() {
                 <Route path="/blog-details/:id" element={<BlogDetailsComponents/>}/>
 
 
-
                 <Route element={<AuthMiddleware/>}>
                     <Route path="/dashboard" element={<AdminDashboardComponents/>}/>
                     <Route path="/add-book" element={<AddBookComponents/>}/>
                     <Route path="/show-book" element={<ShowBookComponents/>}/>
                     <Route path="/update-book/:id" element={<UpdateBookComponents/>}/>
+
+                    <Route path="/add-about" element={<AddAboutComponents/>}/>
+                    <Route path="/show-about" element={<ShowAboutComponents/>}/>
+                    <Route path="/update-about/:id" element={<UpdateAboutComponents/>}/>
 
                     <Route path="/book-gallery/:id" element={<BookImageGalleryComponents/>}/>
                     <Route path="/update-profile" element={<UpdateUserComponents/>}/>
@@ -76,7 +82,6 @@ function RouterComponents() {
                     <Route path="/update-blog/:id" element={<UpdateBlogComponents/>}/>
                     <Route path="/chat" element={<ChatComponents/>}/>
                     <Route path="/contact-list" element={<ContactListComponents/>}/>
-
 
 
                     <Route path="/setting" element={<SettingComponents/>}/>

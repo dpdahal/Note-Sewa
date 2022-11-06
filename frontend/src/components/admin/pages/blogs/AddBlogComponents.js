@@ -18,6 +18,10 @@ const blogSchema = yup.object().shape({
 });
 
 function AddBlogComponents() {
+    const [value, setValue] = useState("");
+    const getValue = (value) => {
+        setValue(value);
+    };
 
     const dispatch = useDispatch();
     const {
@@ -112,9 +116,7 @@ function AddBlogComponents() {
                                                 {errors.description &&
                                                     <a style={pStyle}>{errors.description.message}</a>}
                                             </label>
-                                            <textarea name="description"
-                                                      {...register("description")}
-                                                      id="editor" className="form-control"></textarea>
+                                            <textarea name="description"></textarea>
                                         </div>
                                         <div className="form-group mb-2">
                                             <label htmlFor="images">Images:

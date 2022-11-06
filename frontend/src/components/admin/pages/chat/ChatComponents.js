@@ -13,11 +13,6 @@ function ChatComponents() {
     const [chatBox, setChatBox] = useState(false);
     const [message, setMessage] = useState([]);
 
-    /*
-    ==================Chat Box Default False================
-     */
-
-
     const getMessageBySenderAndReceiver = async (senderId, receiverId) => {
         let sendData = {
             senderId: senderId,
@@ -38,10 +33,6 @@ function ChatComponents() {
         setChatBox(false);
     }
 
-    /*
-    ====================Send Message===================
-     */
-
 
     const sendMessage = (e) => {
         let message = e.target.value;
@@ -58,15 +49,20 @@ function ChatComponents() {
         }
     }
 
+    const getUsers = async () => {
+        let data = await api.get('/users');
+        setUsers(data.data.users);
+    }
 
-    /*
-  ====================End Send Message===================
-   */
+    const filterUser = (e) => {
+        let value = e.target.value;
+        if (value.length > 0) {
+            api.get(`/users/user-search/${value}`).then((res) => {
+                setUsers(res.data.users);
+            });
+        }
+    }
 
-
-    /*
-  =============Get all users===============
-  */
 
     const getUserByClick = (id) => {
         api.get(`/users/${id}`).then((response) => {
@@ -90,7 +86,7 @@ function ChatComponents() {
         let senderId = localStorage.getItem("userId");
         let receiverId = findUser._id;
         setMessage([...message, msg]);
-        // await getMessageBySenderAndReceiver(senderId, receiverId);
+        await getMessageBySenderAndReceiver(senderId, receiverId);
 
     });
 
@@ -167,6 +163,7 @@ function ChatComponents() {
                                         <div className="col-md-4 userBoxList">
                                             <div className="user-list-section">
                                                 <h3>Users</h3>
+                                                <input onChange={filterUser} placeholder="Filter user" type="text"/>
                                                 <ul className="user-list">
                                                     {users.map((user) => (
                                                         <div key={user._id}>

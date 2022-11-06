@@ -87,7 +87,10 @@ function HomeComponents() {
                                     <div className="text-center">
                                         <Link to={`/book-details/${book._id}`} className="nav-link-style fs-ms">
                                             <i className="ci-eye align-middle me-1"/>
-                                            Quick view</Link></div>
+                                            Quick view</Link>
+
+
+                                    </div>
                                 </div>
                             </div>
                             <hr className="d-sm-none"/>

@@ -11,6 +11,7 @@ import bookOrderSlice from "./reducers/bookOrderSlice";
 import settingSlice from "./reducers/settingSlice";
 import blogSlice from "./reducers/blogSlice";
 import messageSlice from "./reducers/messageSlice";
+import aboutSlice from "./reducers/aboutSlice";
 
 const store = configureStore({
     reducer: {
@@ -24,6 +25,7 @@ const store = configureStore({
         setting: settingSlice.reducer,
         blogs: blogSlice.reducer,
         message: messageSlice.reducer,
+        about: aboutSlice.reducer,
     },
     // middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger)
 

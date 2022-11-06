@@ -9,6 +9,7 @@ import Swal from "sweetalert2";
 import {loginUser} from "../../../store/reducers/usersSlice";
 import HeaderComponents from "../../layouts/HeaderComponents";
 import FooterComponents from "../../layouts/FooterComponents";
+import "./Login.css";
 
 const LoginSchema = yup.object().shape({
     email: yup.string().required(),
@@ -52,26 +53,33 @@ function LoginComponents() {
     return (
         <React.Fragment>
             <HeaderComponents/>
-            <div className="container mt-4 mt-5 mb-5">
-                <div className="row">
-                    <div className="col-md-12">
+            <div className="container mt-5 mt-5 mb-5">
+                <div className="row  justify-content-center">
+                    <div className="col-md-4">
                         <h1>Login</h1>
                     </div>
-                    <div className="col-md-12">
+                </div>
+                <div className="row justify-content-center">
+                    <div className="col-md-4">
                         <form onSubmit={handleSubmit(onSubmit)}>
-                            <div className="form-group mb-2">
-                                <label>Email</label>
+                            <div className="form-group mb-3">
+                                <label>Email:
+                                    {errors.email && <a style={pStyle}>{errors.email.message}</a>}
+                                </label>
                                 <input {...register("email")} type="email" className="form-control"/>
-                                {errors.email && <p style={pStyle}>{errors.email.message}</p>}
+
                             </div>
-                            <div className="form-group mb-2">
-                                <label>Password</label>
+                            <div className="form-group mb-3">
+                                <label>Password:
+                                    {errors.password && <a style={pStyle}>{errors.password.message}</a>}
+                                </label>
                                 <input {...register("password")} type="password" className="form-control"/>
-                                {errors.password && <p style={pStyle}>{errors.password.message}</p>}
+
                             </div>
-                            <div className="form-group mb-2">
-                                <button className="btn btn-success">Login</button>
-                                <Link to="/register">Create Account</Link>
+                            <div className="form-group mb-5">
+                                <button className="login-btn">
+                                    <i className="bi bi-file-lock-fill"></i> Login </button>
+                                <Link to="/register" className="float-end">Create Account</Link>
                             </div>
                         </form>
                     </div>

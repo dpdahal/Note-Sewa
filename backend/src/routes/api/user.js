@@ -40,6 +40,7 @@ userRoute.put("/", upload.single('image'), (req, res) => {
 userRoute.get("/:id", userInstance.show);
 userRoute.delete("/:id", userInstance.delete);
 userRoute.post('/change-password', userInstance.changePassword);
+userRoute.get('/user-search/:id', userInstance.searchUser);
 
 
 export default userRoute;

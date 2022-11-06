@@ -141,10 +141,10 @@ function BookDetailsComponents() {
                         <span>Price: {books.price}</span>
                         <span> Page {books.pages}</span>
                         <span> Owners {books.postedBy}</span>
-                        <hr/>
-                        <button onClick={() => orderBookHandle(books._id, books.ownerId)} className="btn btn-success">Order Now</button>
-                        <hr/>
-                        <form action="" onSubmit={addRatingAndReview}>
+                        <br/>
+                        <button onClick={() => orderBookHandle(books._id, books.ownerId)} className="btn btn-danger">Order Now</button>
+
+                        <form action="" className="mt-5" onSubmit={addRatingAndReview}>
                             <div className="row">
                                 <div className="col-md-3">
                                     <h3>Rating</h3>

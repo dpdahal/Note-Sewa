@@ -8,14 +8,15 @@ import AdminHeaderComponents from "../../layouts/AdminHeaderComponents";
 import AdminAsideComponents from "../../layouts/AdminAsideComponents";
 import AdminFooterComponents from "../../layouts/AdminFooterComponents";
 import {createBanner} from "../../../../store/reducers/bannerSlice";
+import MyEditor from "../../../editor/MyEditor";
 
 const bannerSchema = yup.object().shape({
     title: yup.string().required(),
     subtitle: yup.string().required(),
-    description: yup.string().required(),
 });
 
-function AddBannerComponents() {
+function AddBannerComponents(props) {
+    const [editor, setEditor] = useState(null);
     const dispatch = useDispatch();
     const {
         register,
@@ -38,7 +39,7 @@ function AddBannerComponents() {
         let sendData = new FormData();
         sendData.append('title', data.title);
         sendData.append('subtitle', data.title);
-        sendData.append('description', data.description);
+        sendData.append('description', editor);
         Object.values(images).forEach(file => {
             sendData.append("images", file);
         });
@@ -92,13 +93,13 @@ function AddBannerComponents() {
                                     </div>
 
                                     <div className="form-group mb-2">
-                                        <label htmlFor="description">Description:
-                                            {errors.description &&
-                                                <a style={pStyle}>{errors.description.message}</a>}
-                                        </label>
-                                        <textarea name="description"
-                                                  {...register("description")}
-                                                  id="editor"     className="form-control"></textarea>
+                                        <label htmlFor="description">Description: </label>
+                                        <MyEditor
+                                            handleChange={(data) => {
+                                                setEditor(data);
+                                            }}
+                                            data={editor}
+                                            {...props} />
                                     </div>
                                     <div className="form-group mb-2">
                                         <label htmlFor="images">Images:
@@ -124,4 +125,6 @@ function AddBannerComponents() {
     </div>)
 }
 
-export default AddBannerComponents
+export default AddBannerComponents;
+
+

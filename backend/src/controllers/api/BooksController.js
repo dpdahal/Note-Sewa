@@ -5,6 +5,7 @@ import fs from "fs";
 import BookOrders from "../../models/BookOrders.js";
 import BookRatings from "../../models/BookRatings.js";
 
+
 class BooksController {
     async index(req, res) {
 
@@ -527,6 +528,70 @@ class BooksController {
             await BookRatings.create({...req.body});
             res.status(200).json({success: "Book review success"});
         }
+    }
+
+    async updateOrderStatus(req, res) {
+        let orderId = req.body.orderId;
+        let status = req.body.status;
+        if (status === "accepted") {
+            status = "accepted";
+            await BookOrders.findOneAndUpdate({_id: orderId}, {$set: {status: status}});
+            res.status(200).json({success: "Order status updated"});
+        }
+        if (status === "rejected") {
+            status = "rejected";
+            await BookOrders.findOneAndUpdate({_id: orderId}, {$set: {status: status}});
+            res.status(200).json({success: "Order status updated"});
+        }
+
+        if (status === 'cancel') {
+            let orderId = req.body.orderId;
+            await BookOrders.findOneAndDelete({_id: orderId});
+            res.status(200).json({success: "Order deleted"});
+        }
+    }
+
+    async show(req, res) {
+        let bookId = req.params.id;
+        let bookData = await Books.aggregate([
+            {
+                $lookup: {
+                    from: "faculties",
+                    localField: "faculty",
+                    foreignField: "_id",
+                    as: "faculty"
+                }
+            }
+        ]);
+        // get book by book id
+        bookData = bookData.filter((book) => {
+            return book._id == bookId;
+        });
+        // get faculty name
+        bookData = bookData.map((book) => {
+            book.faculty_name = book.faculty[0].name;
+            return book;
+        });
+        // get faculty id
+        bookData = bookData.map((book) => {
+            book.faculty_id = book.faculty[0]._id;
+            return book;
+        });
+
+        // delete faculty
+        bookData = bookData.map((book) => {
+            delete book.faculty;
+            return book;
+        });
+        // remove first element
+        bookData = bookData.shift();
+        res.status(200).json({book: bookData});
+    }
+
+    async update(req, res) {
+        let bookId = req.params.id;
+        await Books.findOneAndUpdate({_id: bookId}, {$set: {...req.body}});
+        res.status(200).json({success: "Book updated"});
     }
 }
 

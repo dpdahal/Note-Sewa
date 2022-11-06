@@ -102,5 +102,21 @@ export default class UserController {
             return res.status(200).json({error: "Password does not match"});
         }
     }
+
+    async searchUser(req, res) {
+        let name = req.params.id;
+        let users = await User.find({name: {$regex: name, $options: 'i'}});
+        if (users.length > 0) {
+            users = users.map((user) => {
+                if (user.image) {
+                    user.image = process.env.BASE_URL + "/uploads/users/" + user.image;
+                } else {
+                    user.image = process.env.BASE_URL + "/uploads/icons/imagenotfound.jpg";
+                }
+                return user;
+            });
+            return res.status(200).json({users: users});
+        }
+    }
 }
 

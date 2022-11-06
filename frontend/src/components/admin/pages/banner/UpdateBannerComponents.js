@@ -10,6 +10,7 @@ import AdminFooterComponents from "../../layouts/AdminFooterComponents";
 import {useParams} from "react-router-dom";
 import api from "../../../../config/api";
 import {updateBanner} from "../../../../store/reducers/bannerSlice";
+import MyEditor from "../../../editor/MyEditor";
 
 const bannerSchema = yup.object().shape({
     title: yup.string().required(),
@@ -17,9 +18,10 @@ const bannerSchema = yup.object().shape({
     description: yup.string().required(),
 });
 
-function UpdateBannerComponents() {
+function UpdateBannerComponents(props) {
     const dispatch = useDispatch();
     const params = useParams();
+    const [editor, setEditor] = useState(null);
 
 
     const {
@@ -75,6 +77,7 @@ function UpdateBannerComponents() {
             setValue("title", banner.title);
             setValue("subtitle", banner.subtitle);
             setValue("description", banner.description);
+            setEditor(banner.description);
         });
     }, [params.id]);
     return (<div>
@@ -108,13 +111,13 @@ function UpdateBannerComponents() {
                                     </div>
 
                                     <div className="form-group mb-2">
-                                        <label htmlFor="description">Description:
-                                            {errors.description &&
-                                                <a style={pStyle}>{errors.description.message}</a>}
-                                        </label>
-                                        <textarea name="description"
-                                                  {...register("description")}
-                                                  id="editor" className="form-control"></textarea>
+                                        <label htmlFor="description">Description:</label>
+                                        <MyEditor
+                                            handleChange={(data) => {
+                                                setEditor(data);
+                                            }}
+                                            data={editor}
+                                            {...props} />
                                     </div>
                                     <div className="form-group mb-2">
                                         <label htmlFor="images">Images:

@@ -7,6 +7,7 @@ import Swal from "sweetalert2";
 import {createUser} from "../../../store/reducers/usersSlice";
 import HeaderComponents from "../../layouts/HeaderComponents";
 import FooterComponents from "../../layouts/FooterComponents";
+import "./Login.css";
 
 
 const RegisterSchema = yup.object().shape({
@@ -124,7 +125,7 @@ function AddUserComponents() {
                                        onChange={imageHandler}/>
                             </div>
                             <div className="form-group mb-2">
-                                <button className="btn btn-primary">Create User</button>
+                                <button className="login-btn">Create User</button>
                             </div>
                         </form>
                     </div>

@@ -4,12 +4,11 @@ import {yupResolver} from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import Swal from "sweetalert2";
 import {useDispatch} from "react-redux";
-import {createBook, updateBook} from "../../../../store/reducers/bookSlice";
 import AdminHeaderComponents from "../../layouts/AdminHeaderComponents";
 import AdminAsideComponents from "../../layouts/AdminAsideComponents";
 import AdminFooterComponents from "../../layouts/AdminFooterComponents";
 import api from "../../../../config/api";
-import {Link} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 
 const BookSchema = yup.object().shape({
     title: yup.string().required(),
@@ -20,47 +19,63 @@ const BookSchema = yup.object().shape({
 });
 
 function UpdateBookComponents() {
-    const [faculties, setFaculties] = useState([]);
-    let dispatch = useDispatch();
-
-    useEffect(() => {
-        api.get("/faculty").then((response) => {
-            setFaculties(response.data.faculty);
-        });
-
-    }, []);
-
     const {
         register,
         handleSubmit,
-        reset,
+        setValue,
         formState: {errors}
     } = useForm({
         resolver: yupResolver(BookSchema)
     });
+    const [faculties, setFaculties] = useState([]);
+    const [facultyId, setFacultyId] = useState();
+    const [facultyName, setFacultyName] = useState();
+
+    let params = useParams();
+
+    const getBookById = () => {
+        api.get(`/books/${params.id}`).then(res => {
+            let book = res.data.book;
+            setFacultyId(book.faculty_id);
+            setFacultyName(book.faculty_name);
+            setValue('title', book.title);
+            setValue('price', book.price);
+            setValue('quantity', book.quantity);
+            setValue('faculty', book.faculty);
+            setValue('description', book.description);
+        });
+
+    }
+
+    const getFaculties = () => {
+        api.get('/faculty').then(res => {
+            console.log(res.data);
+            setFaculties(res.data.faculty);
+        });
+    }
+
+    useEffect(() => {
+        getBookById();
+        getFaculties();
+
+    }, []);
+
+
     let pStyle = {
         color: "#f60000",
     }
 
 
     const update = (data) => {
-        let sendData = new FormData();
-        sendData.append('title', data.title);
-        sendData.append('price', data.price);
-        sendData.append('quantity', data.quantity);
-        sendData.append('faculty', data.faculty);
-        sendData.append('description', data.description);
-        sendData.append("postedBy", localStorage.getItem("userId"));
-        dispatch(updateBook(sendData)).then((res) => {
-            if (res.payload.success) {
+        data = {...data, postedBy: localStorage.getItem("userId")};
+        api.put(`/books/${params.id}`, data).then(res => {
+            if (res.data.success) {
                 Swal.fire({
                     icon: 'success',
-                    title: 'books added successfully',
+                    title: 'Book updated successfully',
                     showConfirmButton: true,
-                    timer: 3000,
-                    footer: '<a href="/show-book">Go to books list</a>'
+                    timer: 1500
                 })
-                reset();
             } else {
                 Swal.fire({
                     icon: 'error',
@@ -118,10 +133,12 @@ function UpdateBookComponents() {
                                             </label>
                                             <select name="faculty" {...register("faculty")} id=""
                                                     className="form-control">
-                                                <option value="">---Select Faculty</option>
+                                                <option value={facultyId}>{facultyName}</option>
                                                 {faculties.map((faculty) => (
-                                                    <option key={faculty._id}
-                                                            value={faculty._id}>{faculty.name}</option>
+                                                    <option key={faculty._id} value={faculty._id}>
+                                                        {faculty.name}
+                                                    </option>
+
                                                 ))}
 
                                             </select>
