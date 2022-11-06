@@ -54,9 +54,7 @@ function ShowBookComponents() {
                                 <div className="card-body">
                                     <h1 className="card-title-dp">
                                         <i className="bi bi-bag-plus-fill"></i> Books List
-                                        <Link to="/add-book" className="btn btn-primary float-end">
-                                            <i className="bi bi-arrow-right-square-fill"></i> Add Book
-                                        </Link>
+
                                     </h1>
                                     <table className="table">
                                         <thead>

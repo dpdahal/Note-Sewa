@@ -35,9 +35,13 @@ function AdminAsideComponents() {
                     </Link>
                     <ul id="forms-nav" className="nav-content collapse " data-bs-parent="#sidebar-nav">
                         <li>
-                            <Link to="/add-book">
-                                <i className="bi bi-circle"/><span>Add Book</span>
-                            </Link>
+                            {user.role === 'admin' ? ""
+                                :
+                                <Link to="/add-book">
+                                    <i className="bi bi-circle"/><span>Add Book</span>
+                                </Link>
+                            }
+
                         </li>
                         <li>
                             <Link to="/show-book">

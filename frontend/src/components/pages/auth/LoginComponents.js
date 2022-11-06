@@ -35,7 +35,7 @@ function LoginComponents() {
                 let responseData = res.payload.authResponse;
                 localStorage.setItem('token', responseData.token);
                 localStorage.setItem('userId', responseData._id);
-                window.location.href = "/dashboard";
+                window.location.href = "/";
             } else {
                 Swal.fire({
                     position: 'center',

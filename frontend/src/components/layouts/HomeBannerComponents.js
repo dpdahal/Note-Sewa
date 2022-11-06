@@ -25,7 +25,7 @@ function HomeBannerComponents() {
                             <img src={banner.image} className="d-block w-100" height="650px" alt="..."/>
                             <div className="carousel-caption d-none d-md-block">
                                 <h5>{banner.title}</h5>
-                                <p>{banner.description}</p>
+
                             </div>
                         </div>
                     ))}

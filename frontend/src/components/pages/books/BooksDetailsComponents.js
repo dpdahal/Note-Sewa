@@ -138,11 +138,13 @@ function BookDetailsComponents() {
                         <h1 className="card-title-dp">{books.title}</h1>
                         <p>{books.description}</p>
                         <br/>
-                        <span>Price: {books.price}</span>
-                        <span> Page {books.pages}</span>
-                        <span> Owners {books.postedBy}</span>
+                        <p>Price: {books.price}</p>
+                        <p> Page: {books.pages}</p>
+                        <p> Owner: {books.postedBy}</p>
                         <br/>
-                        <button onClick={() => orderBookHandle(books._id, books.ownerId)} className="btn btn-danger">Order Now</button>
+                        <button onClick={() => orderBookHandle(books._id, books.ownerId)}
+                                className="btn btn-danger">Order Now
+                        </button>
 
                         <form action="" className="mt-5" onSubmit={addRatingAndReview}>
                             <div className="row">
