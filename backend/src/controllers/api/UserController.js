@@ -59,9 +59,9 @@ export default class UserController {
             } else {
                 users.image = process.env.BASE_URL + "/uploads/icons/imagenotfound.jpg";
             }
-            return res.status(200).json({users: users});
+            res.status(200).json({users: users});
         } catch (err) {
-            return res.json(err);
+            res.json(err);
         }
     }
 

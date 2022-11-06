@@ -6,28 +6,45 @@ import AdminAsideComponents from "../../layouts/AdminAsideComponents";
 import AdminFooterComponents from "../../layouts/AdminFooterComponents";
 import "./style.css";
 import api from "../../../../config/api";
+import {useDispatch, useSelector} from "react-redux";
+import {getUsers} from "../../../../store/reducers/usersSlice";
 
 function ChatComponents() {
-    const [users, setUsers] = useState([]);
-    const [findUser, setFindUser] = useState({});
+    const [findUser, setFindUser] = useState([]);
     const [chatBox, setChatBox] = useState(false);
     const [message, setMessage] = useState([]);
+    const [users, setUsers] = useState([]);
+
+
+    useEffect(() => {
+        api.get("/users").then((res) => {
+            setUsers(res.data.users);
+        });
+    }, []);
 
     const getMessageBySenderAndReceiver = async (senderId, receiverId) => {
         let sendData = {
             senderId: senderId,
             receiverId: receiverId
         }
-        let data = await api.post('/message/', sendData);
-        setMessage(data.data);
+        api.post('/message/', sendData).then((res) => {
+            setMessage(res.data.message);
+        });
     }
 
-    const clickUserList = async (userId) => {
+    const handleChatBox = async (id) => {
         setChatBox(true);
-        getUserByClick(userId);
-        let senderId = localStorage.getItem("userId");
-        await getMessageBySenderAndReceiver(senderId, userId);
+        let senderId = localStorage.getItem('userId');
+
+        await api.get(`/users/${id}`).then(res => {
+            getMessageBySenderAndReceiver(senderId, id);
+            setFindUser(res.data.users);
+        }).catch((e) => {
+            console.log(e)
+        });
+
     }
+
 
     const closeChatBox = () => {
         setChatBox(false);
@@ -49,10 +66,6 @@ function ChatComponents() {
         }
     }
 
-    const getUsers = async () => {
-        let data = await api.get('/users');
-        setUsers(data.data.users);
-    }
 
     const filterUser = (e) => {
         let value = e.target.value;
@@ -64,30 +77,10 @@ function ChatComponents() {
     }
 
 
-    const getUserByClick = (id) => {
-        api.get(`/users/${id}`).then((response) => {
-            setFindUser(response.data.users);
-        }).then((error) => {
-            console.log(error);
-        }, []);
-    }
-
-
-    useEffect(() => {
-        api.get('/users').then((response) => {
-            setUsers(response.data.users);
-        }).then((error) => {
-            console.log(error);
-        });
-    }, []);
-
-
     socket.on('message', async (msg) => {
         let senderId = localStorage.getItem("userId");
         let receiverId = findUser._id;
         setMessage([...message, msg]);
-        await getMessageBySenderAndReceiver(senderId, receiverId);
-
     });
 
     return (
@@ -171,7 +164,7 @@ function ChatComponents() {
                                                                 (() => {
                                                                     if (user._id !== localStorage.getItem("userId"))
                                                                         return <li
-                                                                            onClick={() => clickUserList(user._id)}>
+                                                                            onClick={() => handleChatBox(user._id)}>
                                                                             <div className="user-list-item">
                                                                                 <div className="user-list-item-image">
                                                                                     <img src={user.image} width="40"

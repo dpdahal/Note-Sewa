@@ -11,12 +11,8 @@ class ChatMessageController {
                 {receiver: senderId, sender: receiverId}
             ]
         });
-        res.send(messages);
-
-
+        return res.status(200).json({message: messages});
     }
-
-
 }
 
 export default ChatMessageController;

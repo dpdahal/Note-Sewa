@@ -6,9 +6,6 @@ import path from "path";
 import connectDB from './config/connection.js';
 import router from "./routes/web.js";
 import DbSeeder from "./seeder/DbSeeder.js";
-import User from "./models/User.js";
-
-const rooms = ['general', 'tech', 'finance', 'crypto'];
 
 import Message from "./models/Message.js";
 
@@ -79,9 +76,8 @@ io.on('connection', (socket) => {
         let receiver = msg.receiver;
         let message = msg.message.trim();
         await Message.create({message: message, sender: sender, receiver: receiver});
-        socket.broadcast.emit('message', msg)
-    })
-
+        io.emit('message', msg);
+    });
 })
 
 // catch 404 and forward to error handler
