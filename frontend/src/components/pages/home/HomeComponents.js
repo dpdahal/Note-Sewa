@@ -79,11 +79,14 @@ function HomeComponents() {
                                 </div>
                                 <div className="card-body card-body-hidden">
 
+
                                     <button className="btn btn-primary btn-sm d-block w-100 mb-2"
                                             onClick={() => orderBookHandle(book._id, book.ownerId)}
                                             type="button">
                                         <i className="ci-cart fs-sm me-1"/>Order Now
                                     </button>
+
+
                                     <div className="text-center">
                                         <Link to={`/book-details/${book._id}`} className="nav-link-style fs-ms">
                                             <i className="ci-eye align-middle me-1"/>

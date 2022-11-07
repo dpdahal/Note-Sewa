@@ -147,7 +147,7 @@ function HeaderComponents() {
                   <i className="fas fa-angle-up"/>
                 </span>
                         <ul className="all-category-list">
-                            <li className="all-category-list-item">
+                            <li>
                                 {facultyData.map((faculty) => (
                                     <Link to={`/faculty-show/${faculty._id}`} className="nav-row-list-link"
                                           key={faculty._id}>{faculty.name}</Link>

@@ -12,7 +12,6 @@ import "./Login.css";
 
 const RegisterSchema = yup.object().shape({
     name: yup.string().required(),
-    email: yup.string().required().email(),
     password: yup.string().required(),
     confirm_password: yup.string().required()
         .oneOf([yup.ref('password'), null], 'Passwords must match'),
@@ -80,17 +79,19 @@ function AddUserComponents() {
                                 </label>
                                 <input type="text" name="name"
                                        {...register("name")}
-                                       className="form-control"/>
+                                   required    className="form-control"/>
 
                             </div>
                             <div className="form-group mb-2">
                                 <label htmlFor="email">Email:
-                                    {errors.email && <a style={pStyle}>{errors.email.message}</a>}
+                                    <a style={{color:'red',textDecoration:"none"}}>
+                                        Email must be: @ncit.edu.com.np
+                                    </a>
+
                                 </label>
                                 <input type="email" className="form-control"
-                                       {...register("email")}
-                                       name="email"/>
-
+                                       pattern=".+@ncit.edu\.com.np"
+                                       required name="email"/>
 
                             </div>
                             <div className="form-group mb-2">
