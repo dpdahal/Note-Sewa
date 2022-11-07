@@ -85,12 +85,12 @@ function AddUserComponents() {
                             <div className="form-group mb-2">
                                 <label htmlFor="email">Email:
                                     <a style={{color:'red',textDecoration:"none"}}>
-                                        Email must be: @ncit.edu.com.np
+                                        Email must be: @ncit.edu.np
                                     </a>
 
                                 </label>
                                 <input type="email" className="form-control"
-                                       pattern=".+@ncit.edu\.com.np"
+                                       pattern=".+@ncit.edu\.np"
                                        required name="email"/>
 
                             </div>
