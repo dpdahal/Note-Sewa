@@ -20,6 +20,7 @@ const RegisterSchema = yup.object().shape({
 
 function AddUserComponents() {
     const dispatch = useDispatch();
+    const [email, setEmail] = useState("");
     const {
         register, handleSubmit, reset, formState: {errors}
     } = useForm({
@@ -30,6 +31,9 @@ function AddUserComponents() {
     }
     const [profile, setProfile] = useState("");
 
+    const onEmailHandler = (e) => {
+        setEmail(e.currentTarget.value);
+    }
 
     const imageHandler = (e) => {
         setProfile(e.target.files[0]);
@@ -37,7 +41,7 @@ function AddUserComponents() {
     const insertUser = (data) => {
         let sendData = new FormData();
         sendData.append('name', data.name);
-        sendData.append('email', data.email);
+        sendData.append('email', email);
         sendData.append('password', data.password);
         sendData.append('gender', data.gender);
         sendData.append("image", profile);
@@ -79,17 +83,18 @@ function AddUserComponents() {
                                 </label>
                                 <input type="text" name="name"
                                        {...register("name")}
-                                   required    className="form-control"/>
+                                       required className="form-control"/>
 
                             </div>
                             <div className="form-group mb-2">
                                 <label htmlFor="email">Email:
-                                    <a style={{color:'red',textDecoration:"none"}}>
+                                    <a style={{color: 'red', textDecoration: "none"}}>
                                         Email must be: @ncit.edu.np
                                     </a>
 
                                 </label>
                                 <input type="email" className="form-control"
+                                       onChange={onEmailHandler}
                                        pattern=".+@ncit.edu\.np"
                                        required name="email"/>
 
